@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+
+  <body id="body" class="bg-default">
+    <header>
+      <div id="menu-button"></div>
+      <h1>Color Picker</h1>
+    </header>
+
+    <div id="wrapper-color-menu">
+      <ul id="color-menu" class="side-menu">
+        <li>
+          <label
+            id="label-bg-default"
+            for="bg-toggle-default"
+            class="color-label bg-default"
+            ><input
+              id="bg-toggle-default"
+              type="radio"
+              name="color"
+              value="default"
+            />Default</label
+          >
+        </li>
+        <li>
+          <label
+            id="label-bg-violet"
+            for="bg-toggle-violet"
+            class="color-label bg-violet"
+            ><input
+              id="bg-toggle-violet"
+              type="radio"
+              name="color"
+              value="violet"
+          /></label>
+        </li>
+        <li>
+          <label
+            id="label-bg-blue"
+            for="bg-toggle-blue"
+            class="color-label bg-blue"
+            ><input id="bg-toggle-blue" type="radio" name="color" value="blue"
+          /></label>
+        </li>
+        <li>
+          <label
+            id="label-bg-cyan"
+            for="bg-toggle-cyan"
+            class="color-label bg-cyan"
+            ><input id="bg-toggle-cyan" type="radio" name="color" value="cyan"
+          /></label>
+        </li>
+        <li>
+          <label
+            id="label-bg-green"
+            for="bg-toggle-green"
+            class="color-label bg-cyan"
+            ><input
+              id="bg-toggle-green"
+              type="radio"
+              name="color"
+              value="green"
+          /></label>
+        </li>
+        <li>
+          <label
+            id="label-bg-yellow"
+            for="bg-toggle-yellow"
+            class="color-label bg-yellow"
+            ><input
+              id="bg-toggle-yellow"
+              type="radio"
+              name="color"
+              value="yellow"
+          /></label>
+        </li>
+        <li>
+          <label
+            id="label-bg-orange"
+            for="bg-toggle-orange"
+            class="color-label bg-orange"
+            ><input
+              id="bg-toggle-orange"
+              type="radio"
+              name="color"
+              value="orange"
+          /></label>
+        </li>
+        <li>
+          <label
+            id="label-bg-red"
+            for="bg-toggle-red"
+            class="color-label bg-red"
+            ><input id="bg-toggle-red" type="radio" name="color" value="red"
+          /></label>
+        </li>
+      </ul>
+    </div>
+    <footer>
+      <p>
+        Background color is set to:
+        <span>Default</span>
+      </p>
+      <div id="color-indicator"></div>
+    </footer>
+  </body>
+</html>
