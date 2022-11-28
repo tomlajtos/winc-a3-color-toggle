@@ -1,5 +1,6 @@
 /* Color variables */
 :root {
+  --c-gray: #afafaf;
   --c-default: #dfdfdf;
   --c-violet: #8f00ff;
   --c-blue: #0000ff;
@@ -60,6 +61,10 @@ body {
   font-size: 16px;
 }
 
+.bg-gray {
+  background-color: var(--c-gray);
+}
+
 /*
 * Header styles 
 * */
@@ -68,25 +73,30 @@ header {
   display: grid;
   grid-template-columns: 1fr 4fr;
   grid-template-rows: 70px;
-  background-color: #afafaf;
   align-items: center;
 }
 
 header h1 {
   width: 100%;
   grid-area: 1 / 1 / 2 / 3;
-  /* background-color: burlywood; */
   text-align: center;
-  /* margin-right: 40px; */
 }
 
 /* Menu button styles */
-#menu-button {
+#menu-button-container {
+  height: 57px;
+  width: 60px;
   grid-area: 1 / 1 / 2 / 2;
+  display: flex;
+  align-items: start;
+  align-self: end;
+}
+#menu-button {
+  margin-left: 10px;
   background: url("./hamburger_menu.png") center no-repeat;
-  background-size: 55%;
-  height: 70px;
-  width: 70px;
+  background-size: 100%;
+  height: 45px;
+  width: 45px;
   z-index: 1;
 }
 
@@ -101,11 +111,11 @@ header h1 {
 * - displays color selectors with their representative colors
 * Bonus features implemented:
 * - color description text removed from color selectors
-*   (except for 'reset selector')
+*   (except for 'default selector')
 * - active color highlight: radio button (alternative) >>
 *   used box shadow highlight to indicate selection
 **/
-#color-menu-wrapper {
+#color-menu-container {
   width: 210px;
   height: 365px;
 }
@@ -179,7 +189,6 @@ footer {
   flex-flow: row wrap;
   justify-content: center;
   align-items: center;
-  background-color: #afafaf;
 }
 
 footer p {
@@ -194,7 +203,6 @@ footer p {
 }
 
 #color-indicator {
-  /* position: relative; */
   margin: 0 10px;
   display: inline-box;
   width: 20px;
