@@ -169,3 +169,86 @@ const changeColorText = function (colorArray) {
 
   colorTextObj.name.innerHTML = colorTextObj.newText;
 };
+
+// Function to call all necessary functions when a color selector is clicked
+// argument(1): array of objects ([color]Array)
+// the 'addClickEvent' function takes this function as one of it's arguments
+const applyColorChange = (colorArray) => {
+  removeSelectionIndicator(colorArray);
+  removeClasses(colorArray);
+  addClasses(colorArray);
+  changeColorText(colorArray);
+  hideColorMenu();
+};
+
+//Function to add click events to an DOM object
+// arguments(3+):
+// - 1, target element
+// - 2, array of objects ([{elementToChange, propertiesToModify}] >> [color]Array)
+// - 3, any number of functions that take a [color]Array as argument
+const addClickEvent = (eventTarget, colorArray, ...handlerFunctions) => {
+  eventTarget.addEventListener("click", () =>
+    handlerFunctions.forEach((func) => func(colorArray))
+  );
+};
+
+// Add event listener for keyboard actions,
+// use event delegation to listen to keyboard events
+// Open/close the color menu (Enter/Escape) and select
+// colors (1-8) with keyboard.
+document.addEventListener("keydown", (event) => {
+  switch (event.key) {
+    case "Enter":
+      showColorMenu();
+      break;
+    case "Escape":
+      hideColorMenu();
+      break;
+    case "1":
+      applyColorChange(defaultArray);
+      break;
+    case "2":
+      applyColorChange(violetArray);
+      break;
+    case "3":
+      applyColorChange(blueArray);
+      break;
+    case "4":
+      applyColorChange(cyanArray);
+      break;
+    case "5":
+      applyColorChange(greenArray);
+      break;
+    case "6":
+      applyColorChange(yellowArray);
+      break;
+    case "7":
+      applyColorChange(orangeArray);
+      break;
+    case "8":
+      applyColorChange(redArray);
+      break;
+    default:
+      alert(
+        `Key not recognized.
+        - Open / Close color menu: 
+            Enter / Escape
+        - Color options (type the number to apply color):
+            default: 1,  violet: 2
+            blue: 3,  cyan: 4
+            green: 5,  yellow: 6
+            orange: 7,  red: 8`
+      );
+  }
+});
+
+showHideColorMenu();
+
+addClickEvent(colorInputDefault, defaultArray, applyColorChange);
+addClickEvent(colorInputViolet, violetArray, applyColorChange);
+addClickEvent(colorInputBlue, blueArray, applyColorChange);
+addClickEvent(colorInputCyan, cyanArray, applyColorChange);
+addClickEvent(colorInputGreen, greenArray, applyColorChange);
+addClickEvent(colorInputYellow, yellowArray, applyColorChange);
+addClickEvent(colorInputOrange, orangeArray, applyColorChange);
+addClickEvent(colorInputRed, redArray, applyColorChange);
