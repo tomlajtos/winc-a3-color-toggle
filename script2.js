@@ -58,3 +58,32 @@ class BasicActions {
     );
   }
 }
+
+/* MenuActions class provides menu operation functionalities
+ * this is implemented by showHideColormenu method which calls
+ * methods inherited from BasicActions class
+ * Argument for constructor: 'doc' object */
+class MenuActions extends BasicActions {
+  constructor({ header, menuItems: m }) {
+    super({ menuItems: m });
+    this.buttonParent = header;
+    this.button = m.button;
+    this.buttonEdge = m.buttonEdge;
+    this.menuEdge = m.colorMenuEdge;
+  }
+  showHideColorMenu = function() {
+    // show menu when mouse hovers on menu button
+    this.button.addEventListener("mouseover", () => this.showColorMenu());
+    // hide c. menu when mouse moves from m. button(edge) to header element
+    // but keep c. menu open when mouse moves from m.button to c. menu
+    this.buttonEdge.addEventListener("mouseleave", () => {
+      this.buttonParent.addEventListener(
+        "mouseover",
+        () => this.hideColorMenu(),
+        { once: true }
+      );
+    });
+    // hide c. menu when mouse leaves c. menu(edge) without color selection
+    this.menuEdge.addEventListener("mouseleave", () => this.hideColorMenu());
+  };
+}
