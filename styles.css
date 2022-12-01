@@ -83,7 +83,7 @@ header h1 {
 }
 
 /* Menu button styles */
-#menu-button-container {
+#menu-button-edge {
   height: 57px;
   width: 60px;
   grid-area: 1 / 1 / 2 / 2;
@@ -115,7 +115,7 @@ header h1 {
 * - active color highlight: radio button (alternative) >>
 *   used box shadow highlight to indicate selection
 **/
-#color-menu-container {
+#color-menu-edge {
   width: 210px;
   height: 365px;
 }

@@ -1,8 +1,8 @@
 // variables pointing to elements needed for menu show/hide function
 const menuButton = document.getElementById("menu-button");
-const menuButtonContainer = document.getElementById("menu-button-container");
+const menuButtonEdge = document.getElementById("menu-button-edge");
 const colorMenu = document.getElementById("color-menu");
-const colorMenuContainer = document.getElementById("color-menu-container");
+const colorMenuEdge = document.getElementById("color-menu-edge");
 const docHeader = document.getElementById("header");
 
 // variables pointing to elements to be changed upon color selection
@@ -31,9 +31,9 @@ const colorSelectorYellow = document.getElementById("color-selector-yellow");
 const colorSelectorOrange = document.getElementById("color-selector-orange");
 const colorSelectorRed = document.getElementById("color-selector-red");
 
-// Elements and their properties to be changed upon color selection
-// stored in form of an array of objects, [color]Array.
-// These arrays are given as arguments to the 'addClickEvent' function
+/* Elements and their properties to be changed upon color selection
+ * stored in form of an array of objects, [color]Array.
+ * These arrays are given as arguments to the 'addClickEvent' function */
 const defaultArray = [
   { name: colorSelectors, toRemove: ["selected"] },
   { name: docBody, newClass: ["bg-default"] },
@@ -91,9 +91,10 @@ const redArray = [
   { name: colorSelectorRed, newClass: ["selected"] },
 ];
 
-// Function declarations
+// FUNCTION DEFINITIONS
 
-// Function to make the color menu visible
+/* Function to make the color menu visible
+ * modifies css styles directly on colorMenu element*/
 const showColorMenu = function () {
   colorMenu.style.opacity = "1";
   colorMenu.style.left = "3px";
@@ -101,7 +102,10 @@ const showColorMenu = function () {
     "left 500ms ease-in-out 300ms, opacity 500ms ease-out 100ms";
 };
 
-// Function to hide the color menu
+/* Function to hide the color menu
+ * arguments(0)
+ * modifies css styles directly on colorMenu element*/
+
 const hideColorMenu = function () {
   colorMenu.style.opacity = "0";
   colorMenu.style.left = "-220px";
@@ -109,16 +113,16 @@ const hideColorMenu = function () {
     "left 500ms ease-in-out 400ms, opacity 500ms ease-out 600ms";
 };
 
-// Function to show or hide color menu
-// based on mouse hovering-position/movement
-// Also: clicking on a color selector will close the menu as well,
-// independently from this function.
+/* Function to show or hide color menu
+ * based on mouse hovering-position/movement
+ * Also: clicking on a color selector will close the c. menu
+ * independently from this function. */
 const showHideColorMenu = () => {
   menuButton.addEventListener("mouseover", showColorMenu);
-  menuButtonContainer.addEventListener("mouseleave", () => {
+  menuButtonEdge.addEventListener("mouseleave", () => {
     docHeader.addEventListener("mouseover", hideColorMenu, { once: true });
   });
-  colorMenuContainer.addEventListener("mouseleave", hideColorMenu);
+  colorMenuEdge.addEventListener("mouseleave", hideColorMenu);
 };
 
 /* Function to add class(es) to a DOM object
@@ -130,14 +134,15 @@ const addClasses = (colorArray) =>
     .forEach((element) => element["name"].classList.add(...element.newClass));
 
 /* Function to remove highlight from color-selectors
- * argument(1): array of objects ([color]Array) */
+ * argument(1): array of objects ([color]Array)
+ *
+ * Implementation note:
+ * filter for object in [color]Array that has 'name: colorSelectors' property
+ * which value is an (HTMLCollection) >> done by checking
+ * if object['name'] of colorArray elements is array-like
+ * and has length ('colorSelectors' is the only one in this case,
+ * no need to be more specific) */
 const removeSelectionIndicator = function (colorArray) {
-  /* filter for object in [color]Array that has 'name: colorSelectors' property
-   * which value is an (HTMLCollection) >> done by checking
-   * if object['name'] of colorArray elements is array-like
-   * and has length ('colorSelectors' is the only one in this case,
-   * no need to be more specific) */
-
   //assign filtered out object to a variable with array de-structuring
   const [colorSelectorsObj] = colorArray.filter(
     (object) => object["name"].length
@@ -151,8 +156,8 @@ const removeSelectionIndicator = function (colorArray) {
   );
 };
 
-// Function to remove all classes from a DOM object
-// argument(1): array of objects ([color]Array)
+/* Function to remove all classes from a DOM object
+ * argument(1): array of objects ([color]Array) */
 const removeClasses = (colorArray) =>
   colorArray
     .filter((obj) => obj.name.tagName !== "LABEL" && !obj.name.length)
@@ -160,8 +165,8 @@ const removeClasses = (colorArray) =>
       element["name"].classList.remove(...element["name"].classList)
     );
 
-// Function to change feedback text in footer
-// argument(1): array of objects ([color]Array)
+/* Function to change feedback text in footer
+ * argument(1): array of objects ([color]Array) */
 const changeColorText = function (colorArray) {
   //filter for object that has 'newText' property
   // assign obj to variable with array de-structuring
@@ -170,9 +175,9 @@ const changeColorText = function (colorArray) {
   colorTextObj.name.innerHTML = colorTextObj.newText;
 };
 
-// Function to call all necessary functions when a color selector is clicked
-// argument(1): array of objects ([color]Array)
-// the 'addClickEvent' function takes this function as one of it's arguments
+/* Function to call all necessary functions when a color selector is clicked
+ * argument(1): array of objects ([color]Array)
+ * the 'addClickEvent' function takes this function as one of it's arguments */
 const applyColorChange = (colorArray) => {
   removeSelectionIndicator(colorArray);
   removeClasses(colorArray);
@@ -181,21 +186,21 @@ const applyColorChange = (colorArray) => {
   hideColorMenu();
 };
 
-//Function to add click events to an DOM object
-// arguments(3+):
-// - 1, target element
-// - 2, array of objects ([{elementToChange, propertiesToModify}] >> [color]Array)
-// - 3, any number of functions that take a [color]Array as argument
+/* Function to add click events to an DOM object
+ * arguments(3+):
+ * - 1, target element
+ * - 2, array of objects ([{elementToChange, propertiesToModify}] >> [color]Array)
+ * - 3, any number of functions that take a [color]Array as argument */
 const addClickEvent = (eventTarget, colorArray, ...handlerFunctions) => {
   eventTarget.addEventListener("click", () =>
     handlerFunctions.forEach((func) => func(colorArray))
   );
 };
 
-// Add event listener for keyboard actions,
-// use event delegation to listen to keyboard events
-// Open/close the color menu (Enter/Escape) and select
-// colors (1-8) with keyboard.
+/* Add event listener for keyboard actions,
+ * use event delegation to listen to keyboard events
+ * Open/close the color menu (Enter/Escape) and select
+ * colors (1-8) with keyboard. */
 document.addEventListener("keydown", (event) => {
   switch (event.key) {
     case "Enter":
@@ -242,8 +247,8 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+// FUNCTION INVOCATIONS
 showHideColorMenu();
-
 addClickEvent(colorInputDefault, defaultArray, applyColorChange);
 addClickEvent(colorInputViolet, violetArray, applyColorChange);
 addClickEvent(colorInputBlue, blueArray, applyColorChange);
