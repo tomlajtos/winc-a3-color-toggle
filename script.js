@@ -95,7 +95,7 @@ const redArray = [
 
 /* Function to make the color menu visible
  * modifies css styles directly on colorMenu element*/
-const showColorMenu = function () {
+const showColorMenu = function() {
   colorMenu.style.opacity = "1";
   colorMenu.style.left = "3px";
   colorMenu.style.transition =
@@ -105,8 +105,7 @@ const showColorMenu = function () {
 /* Function to hide the color menu
  * arguments(0)
  * modifies css styles directly on colorMenu element*/
-
-const hideColorMenu = function () {
+const hideColorMenu = function() {
   colorMenu.style.opacity = "0";
   colorMenu.style.left = "-220px";
   colorMenu.style.transition =
@@ -142,7 +141,7 @@ const addClasses = (colorArray) =>
  * if object['name'] of colorArray elements is array-like
  * and has length ('colorSelectors' is the only one in this case,
  * no need to be more specific) */
-const removeSelectionIndicator = function (colorArray) {
+const removeSelectionIndicator = function(colorArray) {
   //assign filtered out object to a variable with array de-structuring
   const [colorSelectorsObj] = colorArray.filter(
     (object) => object["name"].length
@@ -167,7 +166,7 @@ const removeClasses = (colorArray) =>
 
 /* Function to change feedback text in footer
  * argument(1): array of objects ([color]Array) */
-const changeColorText = function (colorArray) {
+const changeColorText = function(colorArray) {
   //filter for object that has 'newText' property
   // assign obj to variable with array de-structuring
   const [colorTextObj] = colorArray.filter((obj) => obj.newText);
