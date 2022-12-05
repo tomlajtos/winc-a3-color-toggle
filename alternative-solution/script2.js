@@ -1,6 +1,8 @@
-/* This is an alternative, object-oriented solution for the color toggle assignment
- * It is my own initiative to learn about and practice JS-OOP as it is not included in the
- * JS curriculum of the Front-End Development course */
+/********************************************************************************************
+ * This is an alternative, object-oriented solution for the 'Color Toggle' assignment       *
+ * It is my own initiative to learn about and practice JS-OOP as it is not included in the  *
+ * JS curriculum of the Front-End Development course                                        *
+ ********************************************************************************************/
 
 // DEFINE A DOCUMENT OBJECT
 /* Object, representing elements of the DOM that are changed or interacted with
@@ -46,7 +48,7 @@ class BasicActions {
     };
   }
 
-  /* Helper function to other functions which show color menu when:
+  /* Helper method to other methods which show color menu when:
    * - the mouse hovers over the menu button
    * - when mouse clicks on the menu button
    * - when user hits the 'Enter' key */
@@ -57,7 +59,7 @@ class BasicActions {
       "left 500ms ease-in-out 300ms, opacity 500ms ease-out 100ms";
   }
 
-  /* Helper function to other functions which hide the color menu when:
+  /* Helper method to other methods which hide the color menu when:
    * - the mouse hovers off the menu button, but not towards menu
    * - the mouse hovers off the menu without selecting a new color
    * - when mouse clicks on the menu button the 2nd time
@@ -70,8 +72,8 @@ class BasicActions {
       "left 500ms ease-in-out 400ms, opacity 500ms ease-out 600ms";
   }
 
-  /* Helper function to verify if the menu is visible or hidden
-   * Supports other functions which execution depends on the menu's hidden/visible state */
+  /* Helper method to verify if the menu is visible or hidden
+   * Supports other methods which execution depends on the menu's hidden/visible state */
   isMenuVisible() {
     // reg-ex to check if menu style position-left starts with a digit == visible
     // hidden means negative pixel value, which starts with '-'
@@ -80,11 +82,11 @@ class BasicActions {
     return menuStateRegEx.test(this.menu.style.left);
   }
 
-  /* Helper function to resets certain changes on specific elements
+  /* Helper method to reset certain changes on specific elements
    * between two color change event
    * Removes every class from body and colorIndicator
    * Removes "selected" class from colorSelector elements
-   * This function should be called as first step on a color change event */
+   * This method should be called as first step on a color change event */
   resetChanges() {
     this.body.classList.remove(...this.body.classList);
     this.colorIndicator.classList.remove(...this.colorIndicator.classList);
@@ -107,7 +109,7 @@ class MenuActions extends BasicActions {
     this.menuEdge = m.colorMenuEdge;
   }
 
-  /* Function that adds the functionality to show/hide menu with keyboard.
+  /* Method that adds the functionality to show/hide menu on key-press.
    * Show menu when 'Enter' is pressed, or hide it if it was visible
    * Alert if key is invalid */
   showHideMenuWithKeyboard() {
@@ -115,7 +117,8 @@ class MenuActions extends BasicActions {
       const keyName = event.key;
       const validKey = keyName in this.validKeys;
 
-      // check if a key with associated function was pressed, alert if not
+      // check if a key with associated functionality
+      // was pressed, alert if key has no function == invalid
       if (!validKey) {
         alert(
           `Key not recognized.
@@ -141,15 +144,19 @@ class MenuActions extends BasicActions {
     });
   }
 
-  /* Function that adds the functionality to show/hide menu on mouse click.
-   * Show menu when user clicks on the menu button or hide it if it was visible */
+  /* Method that adds the functionality to show/hide menu on mouse click.
+   * Show menu when user clicks on the menu button or hide it if it was visible
+   *
+   * Added this so menu button would work on touch screens as well
+   * (in browser dev mode at least, without this menu will not open when
+   * touch simulation is active */
   showHideMenuOnClick() {
     this.button.addEventListener("click", () => {
       !this.isMenuVisible() ? this.showColorMenu() : this.hideColorMenu();
     });
   }
 
-  /* Function that adds the functionality to show/hide menu
+  /* Method that adds the functionality to show/hide menu
    * depending on the cursor's hover position.
    * Show menu when the cursor hover over the menu button
    * Hide menu when the cursor hovers off the menu button, but not towards menu
@@ -179,11 +186,110 @@ class MenuActions extends BasicActions {
     });
   }
 
-  // Function that combines all menu actions together
-  // show/hides menu on hover, click, or keyboard event
+  /*  Method that combines all menu actions together
+   * shows/hides menu on hover, click, or keyboard event, This should be
+   * called on class instance(s) to make the functionalities work. */
   showHideMenu = function() {
     this.showHideMenuWithKeyboard();
     this.showHideMenuOnClick();
     this.showHideMenuOnHover();
   };
 }
+
+/* Color class, template for color objects
+ * Has methods to execute changes and actions on color selection
+ * Arguments for it's constructor function:
+ * - color ("string", low-cap, no-space)
+ * - object with required property - value pairs */
+class ColorActions extends BasicActions {
+  constructor(color, { body, colorIndicator, colorText, menuItems: m }) {
+    super({ body, colorIndicator, colorText, menuItems: m });
+    this.color = color; // string
+    this.bgColor = "bg-" + color; // color specific class
+    // event target element ID, [input type="radio"]
+    this.colorInputID = "color-input-" + color;
+    // ID of label element for input (for each color defined by this.color)
+    this.colorSelectorID = "color-selector-" + color;
+    // radio input element within label = colorSelector
+    this.colorInput = document.getElementById(this.colorInputID);
+    // label element around input, they are representing a color selector button
+    this.colorSelector = document.getElementById(this.colorSelectorID);
+  }
+
+  /* Method to change background-color on the body and color
+   * indicator elements by adding the bg-color-[color] class */
+  changeBackground() {
+    this.body.classList.add(this.bgColor);
+    this.colorIndicator.classList.add(this.bgColor);
+    this.hideColorMenu();
+  }
+
+  /* Method to add selection marker to the 'colorSelector' elements
+   * by adding the 'selected' class to the elements */
+  highlightSelected() {
+    this.colorSelector.classList.add("selected");
+  }
+
+  /* Method to change the text of the HTML element with the id
+   * of 'colorText' to represent the selected color */
+  changeColorText() {
+    this.colorText.innerHTML =
+      this.color[0].toUpperCase() + this.color.substring(1);
+  }
+
+  /* Method to add event listeners to every 'colorInput' element
+   * Enables the color change event which is executed by the handler method
+   * This method needs to be called by an anonym function, otherwise
+   * they would not execute */
+  applyColorChange() {
+    this.resetChanges();
+    this.changeBackground();
+    this.highlightSelected();
+    this.changeColorText();
+  }
+
+  /* Method that adds the functionality to change the background-color
+   * on key-press. The colors represented by keys 1 - 8
+   * valid keys are listed in BasicActions.validKeys property */
+  changeColorWithKeyboard() {
+    document.addEventListener("keypress", (event) => {
+      const keyName = event.key;
+      if (this.color === this.validKeys[keyName]) {
+        this.applyColorChange();
+      }
+    });
+  }
+
+  /* Method to add click event listener to the color input elements
+   * also calls the method for key-press events
+   * This is the method that should be called on the class instances to
+   * execute the background-color change and related actions */
+  applyNewColor() {
+    this.colorInput.addEventListener("click", () => this.applyColorChange());
+    this.changeColorWithKeyboard();
+  }
+}
+
+// DEFINE NEW CLASS INSTANCES
+const colorMenuActions = new MenuActions(doc);
+
+const defaultColor = new ColorActions("default", doc);
+const violetColor = new ColorActions("violet", doc);
+const blueColor = new ColorActions("blue", doc);
+const cyanColor = new ColorActions("cyan", doc);
+const greenColor = new ColorActions("green", doc);
+const yellowColor = new ColorActions("yellow", doc);
+const orangeColor = new ColorActions("orange", doc);
+const redColor = new ColorActions("red", doc);
+
+// CALL METHODS
+colorMenuActions.showHideMenu();
+
+defaultColor.applyNewColor();
+violetColor.applyNewColor();
+blueColor.applyNewColor();
+cyanColor.applyNewColor();
+greenColor.applyNewColor();
+yellowColor.applyNewColor();
+orangeColor.applyNewColor();
+redColor.applyNewColor();
