@@ -238,9 +238,8 @@ class ColorActions extends BasicActions {
   }
 
   /* Method to call every method needed for the color change event
-   * Enables the color change event which is executed by the handler method
-   * This method needs to be called by an anonym function, otherwise
-   * they would not execute */
+   * resetChanges methode should be called first --> removes classes befor
+   * new classes added */
   applyColorChange() {
     this.resetChanges();
     this.changeBackground();
@@ -261,9 +260,12 @@ class ColorActions extends BasicActions {
   }
 
   /* Method to add click event listener to the color input elements
-   * also calls the method for key-press events
-   * This is the method that should be called on the class instances to
-   * execute the background-color change and related actions */
+   * Enables the color change event which is executed by the handler method
+   * This method needs to be called by an anonym function, otherwise
+   * they would not execute.
+   * It also calls the method for key-press events
+   * The applyColorChange method is the method that should be called on the class
+   * instances to execute the background-color change and related actions */
   applyNewColor() {
     this.colorInput.addEventListener("click", () => this.applyColorChange());
     this.changeColorWithKeyboard();
