@@ -1,7 +1,7 @@
 /********************************************************************************************
  * This is an alternative, object-oriented solution for the 'Color Toggle' assignment       *
  * It is my own initiative to learn about and practice JS-OOP as it is not included in the  *
- * JS curriculum of the Front-End Development course                                        *
+ * JavaScript curriculum of the Front-End Development course                                *
  ********************************************************************************************/
 
 // DEFINE A DOCUMENT OBJECT
@@ -237,7 +237,7 @@ class ColorActions extends BasicActions {
       this.color[0].toUpperCase() + this.color.substring(1);
   }
 
-  /* Method to add event listeners to every 'colorInput' element
+  /* Method to call every method needed for the color change event
    * Enables the color change event which is executed by the handler method
    * This method needs to be called by an anonym function, otherwise
    * they would not execute */
