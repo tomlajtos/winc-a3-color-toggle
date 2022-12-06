@@ -144,8 +144,8 @@ class MenuActions extends BasicActions {
     });
   }
 
-  /* Method that adds the functionality to show/hide menu on mouse click.
-   * Show menu when user clicks on the menu button or hide it if it was visible
+  /* Method that adds the functionality of show/hide menu on mouse click.
+   * Show menu when user clicks on the menu button or hide it if menu was visible
    *
    * Added this so menu button would work on touch screens as well
    * (in browser dev mode at least, without this menu will not open when
